@@ -4,49 +4,54 @@ import {BasketContext} from "./Basket";
 import {Link} from "react-router-dom";
 
 function Payments(){
-    const [user, setUser] = useState("")
-    const [method, setMethod] = useState("")
-    //const [price, setPrice]=useState("")
-    const [info, setInfo]=useState("")
-    const { basket, setBasket } = React.useContext(BasketContext);
+    const [user, setUser] = useState("");
+    const [method, setMethod] = useState("");
+    const [info, setInfo]=useState("");
+    const { basket } = React.useContext(BasketContext);
+
     const total = basket.reduce((accumulator, item) => {
         return accumulator + (item.product.PRICE * item.quantity);
     }, 0);
+
     const sendonsubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
+
         if (!method) {
             alert('Wybierz właściwą metodę płatności');
             return;
         }
+
         const data = {
             USER: user,
             METHOD: method,
             AMOUNT: total
-        }
+        };
+
         try {
-            const response = await axios.post("http://localhost:22222/payment", data)
-            setInfo(`Sukces!`)
-            for (let i = 0; i < basket.length; i++) {
-                const item = basket[i];
+            const paymentResponse = await axios.post("http://localhost:22222/payment", data);
+            setInfo(`Sukces!`);
+
+            for (const item of basket) {
                 const data2 ={
-                    PAYID: parseInt(response.data),
+                    PAYID: parseInt(paymentResponse.data),
                     GAMEID: item.product.ID,
                     QUANTITY: item.quantity
-                }
+                };
+
                 try {
-                    const response = await axios.post("http://localhost:22222/basket", data2)
-                }
-                catch (e) {
-                    setInfo(e)
+                    await axios.post("http://localhost:22222/basket", data2);
+                } catch (e) {
+                    setInfo(e);
                 }
             }
-            localStorage.removeItem("basket")
-            window.location.reload()
+
+            localStorage.removeItem("basket");
+            window.location.reload();
+        } catch (error){
+            setInfo(`Mamy problem, nie mogliśmy zrealizować płatności. ${error.response.data}`);
         }
-        catch (error){
-            setInfo(`Mamy problem, nie mogliśmy zrealizować płatności. ${error.response.data}`)
-        }
-    }
+    };
+
     return (
         <div className="Payments">
             <Link to="/"><button>Strona główna</button></Link>
@@ -68,7 +73,7 @@ function Payments(){
             </form>
             <h2>{info}</h2>
         </div>
-    )
+    );
 }
 
-export default Payments
+export default Payments;
