@@ -1,13 +1,11 @@
 import './App.css';
 import React from "react";
-import {Routes} from "react-router-dom";
-import {Route, BrowserRouter} from "react-router-dom";
+import {Routes, Route, BrowserRouter} from "react-router-dom";
 import Hub from "./Hub";
 import Products from "./Products";
 import DefaultApp from "./DefaultApp";
 import Payments from "./Payments";
-import {BasketProvider} from "./Basket";
-import Basket from "./Basket";
+import Basket,{BasketProvider} from "./Basket"
 
 function App() {
     return (

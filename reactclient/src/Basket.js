@@ -35,8 +35,8 @@ function Basket () {
             <Link to="/"><button>Strona główna</button></Link>
             <Link to="/products"><button>Kontynuuj zakupy</button></Link>
             <h1>Your Basket:</h1>
-            {basket.map((item, index) => (
-                <div key={index}>
+            {basket.map((item) => (
+                <div key={item.index}>
                     <h2>{item.product.NAME}</h2>
                     <p>Cena jednostkowa: {item.product.PRICE} PLN</p>
                     <p>Ilość: {item.quantity}</p>

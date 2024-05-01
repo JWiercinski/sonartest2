@@ -39,8 +39,8 @@ const Products = () => {
             <Link to="/"><button>Strona główna</button></Link>
             <Link to="/basket"><button>Przejdź do koszyka</button></Link>
             <h1>Produkty</h1>
-            {products.map((product, index) => (
-                <div key={index}>
+            {products.map((product) => (
+                <div key={product.ID}>
                     <h2>{product.NAME}</h2>
                     <p>{product.DESC}</p>
                     <p>Twórca: {product.DEV}</p>
