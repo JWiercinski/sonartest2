@@ -1,11 +1,11 @@
 import React, {useState, useMemo} from 'react';
+import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
 export const BasketContext = React.createContext();
 
 export const BasketProvider = ({ children }) => {
     const [basket, setBasket] = useState(() => {
-        // Try to get the basket from localStorage
         const savedBasket = localStorage.getItem('basket');
         if (savedBasket) {
             return JSON.parse(savedBasket);
@@ -24,6 +24,10 @@ export const BasketProvider = ({ children }) => {
             {children}
         </BasketContext.Provider>
     );
+};
+
+BasketProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };
 
 function Basket () {
